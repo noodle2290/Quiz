@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.activity_quiz.*
+import app.murakami.takuro.quiz.databinding.ActivityQuizBinding
+
 
 class QuizActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityQuizBinding
     val quizLists: List<List<String>> = listOf(
         listOf("Androidコースのキャラクターの名前は？","ランディ","フィル","ドロイド","ランディ"),
         listOf("Androidアプリを開発する言語はどれ？","JavaScript","Kotlin","Swift","Kotlin"),
@@ -25,21 +27,21 @@ class QuizActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz)
-
+        binding = ActivityQuizBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         showQuestion()
 
-        answerButton1.setOnClickListener {
-            checkAnswer(answerButton1.text.toString())
+        binding.answerButton1.setOnClickListener {
+            checkAnswer(binding.answerButton1.text.toString())
         }
-        answerButton2.setOnClickListener {
-            checkAnswer(answerButton2.text.toString())
+        binding.answerButton2.setOnClickListener {
+            checkAnswer(binding.answerButton2.text.toString())
         }
-        answerButton3.setOnClickListener {
-            checkAnswer(answerButton3.text.toString())
+        binding.answerButton3.setOnClickListener {
+            checkAnswer(binding.answerButton3.text.toString())
         }
 
-        nextButton.setOnClickListener {
+        binding.nextButton.setOnClickListener {
 
             if (quizCount == quizLists.size){
 
@@ -51,14 +53,14 @@ class QuizActivity : AppCompatActivity() {
 
                 startActivity(resultIntent)
             }else{
-                judgeImage.isVisible = false
-                nextButton.isVisible = false
+                binding.judgeImage.isVisible = false
+                binding.nextButton.isVisible = false
 
-                answerButton1.isEnabled = true
-                answerButton2.isEnabled = true
-                answerButton3.isEnabled = true
+                binding.answerButton1.isEnabled = true
+                binding.answerButton2.isEnabled = true
+                binding.answerButton3.isEnabled = true
 
-                correctAnswerText.text = ""
+                binding.correctAnswerText.text = ""
 
                 showQuestion()
             }
@@ -70,11 +72,11 @@ class QuizActivity : AppCompatActivity() {
         val question:List<String> = shuffledLists[quizCount]
         Log.d("debug",question.toString())
 
-        quizText.text = question[0]
+        binding.quizText.text = question[0]
 
-        answerButton1.text = question[1]
-        answerButton2.text = question[2]
-        answerButton3.text = question[3]
+        binding.answerButton1.text = question[1]
+        binding.answerButton2.text = question[2]
+        binding.answerButton3.text = question[3]
 
         correctAnswer = question[4]
     }
@@ -83,11 +85,11 @@ class QuizActivity : AppCompatActivity() {
 
         if (answerText == correctAnswer){
 
-            judgeImage.setImageResource(R.drawable.maru_image)
+            binding.judgeImage.setImageResource(R.drawable.maru_image)
 
             correctCount++
         }else{
-            judgeImage.setImageResource(R.drawable.batu_image)
+            binding.judgeImage.setImageResource(R.drawable.batu_image)
         }
 
         showAnswer()
@@ -97,14 +99,14 @@ class QuizActivity : AppCompatActivity() {
 
     fun showAnswer(){
 
-        correctAnswerText.text = "正解:$correctAnswer"
+        binding.correctAnswerText.text = "正解:$correctAnswer"
 
-        judgeImage.isVisible = true
+        binding.judgeImage.isVisible = true
 
-        nextButton.isVisible = true
+        binding.nextButton.isVisible = true
 
-        answerButton1.isEnabled = false
-        answerButton2.isEnabled = false
-        answerButton3.isEnabled = false
+        binding.answerButton1.isEnabled = false
+        binding.answerButton2.isEnabled = false
+        binding.answerButton3.isEnabled = false
     }
 }

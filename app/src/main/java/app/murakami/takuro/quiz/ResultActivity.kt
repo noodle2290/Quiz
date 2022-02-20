@@ -3,24 +3,27 @@ package app.murakami.takuro.quiz
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_result.*
+import app.murakami.takuro.quiz.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityResultBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_result)
+        binding = ActivityResultBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val quizCount: Int = intent.getIntExtra("QuizCount",0)
 
-        quizCountText.text = "$quizCount 問中・・・"
+        binding.quizCountText.text = "$quizCount 問中・・・"
 
         val correctCount:Int = intent.getIntExtra("CorrectCount",0)
 
-        correctCountText.text = correctCount.toString()
+        binding.correctCountText.text = correctCount.toString()
 
-        againButton.setOnClickListener {
+        binding.againButton.setOnClickListener {
 
-            val quizIntent: Intent = Intent(this,QuizActivity::class.java)
+            val quizIntent = Intent(this,QuizActivity::class.java)
 
             startActivity(quizIntent)
 
